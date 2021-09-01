@@ -158,7 +158,7 @@ class MainActivity : AppCompatActivity() {
 
     private fun onListItemClick(position: Int) {
         val intent = Intent(this, GosterActivity::class.java)
-        intent.putExtra("symbol",list[position].symbol)
+        intent.putExtra("id",list[position].id)
         resultLauncher.launch(intent)
     }
 

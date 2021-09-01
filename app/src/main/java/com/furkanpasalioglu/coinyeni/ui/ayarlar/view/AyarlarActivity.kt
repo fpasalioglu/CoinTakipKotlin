@@ -4,6 +4,7 @@ import android.content.Context
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.MenuItem
+import android.widget.Toast
 import com.furkanpasalioglu.coinyeni.data.database.AppDatabase
 import com.furkanpasalioglu.coinyeni.databinding.ActivityAyarlarBinding
 import com.furkanpasalioglu.coinyeni.ui.main.view.MainActivity
@@ -33,6 +34,7 @@ class AyarlarActivity : AppCompatActivity() {
             edit.putFloat("btc",binding.btcmiktarEdit.text.toString().toFloat())
             edit.putFloat("tl",binding.tlmiktarText.text.toString().toFloat())
             edit.apply()
+            Toast.makeText(applicationContext,"Kayıt edildi",Toast.LENGTH_SHORT).show()
         }
     }
 

@@ -37,7 +37,7 @@ class GosterActivity : AppCompatActivity() {
         val db = AppDatabase.getDatabase(application)
         coinsDao = db?.coinsDao()
 
-        coin = intent.getStringExtra("symbol")?.let { coinsDao?.getCoinBySymbol(it) }!!
+        coin = intent.getStringExtra("id")?.let { coinsDao?.getCoinBySymbol(it) }!!
         title = "Coin Detayları"
 
         lifecycleScope.launch {
