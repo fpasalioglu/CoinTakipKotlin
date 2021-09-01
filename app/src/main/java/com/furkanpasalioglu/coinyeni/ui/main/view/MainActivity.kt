@@ -100,7 +100,6 @@ class MainActivity : AppCompatActivity() {
                     }
                 }
             }
-            //todo settings
             var portBtc = 0F
             var zararToplam = 0F
             list.forEach{
@@ -159,7 +158,7 @@ class MainActivity : AppCompatActivity() {
     private fun onListItemClick(position: Int) {
         val intent = Intent(this, GosterActivity::class.java)
         intent.putExtra("id",list[position].id)
-        resultLauncher.launch(intent)
+        startActivity(intent)
     }
 
     companion object{

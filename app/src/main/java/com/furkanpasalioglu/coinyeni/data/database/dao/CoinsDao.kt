@@ -16,7 +16,7 @@ interface CoinsDao {
     fun isInCoins(symbol:String): Boolean
 
     @Query("SELECT * FROM coins where id == :id")
-    fun getCoinBySymbol(id:String): DatabaseCoin
+    fun getCoinBySymbol(id:Int): DatabaseCoin
 
     @Query("DELETE FROM coins where symbol == :symbol")
     fun deleteBySymbolId(symbol : String): Void
