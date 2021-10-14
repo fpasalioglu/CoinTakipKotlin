@@ -6,12 +6,11 @@ import android.view.MenuItem
 import android.view.View
 import androidx.lifecycle.lifecycleScope
 import com.furkanpasalioglu.coinyeni.data.api.ApiHelper
-import com.furkanpasalioglu.coinyeni.data.database.AppDatabase
-import com.furkanpasalioglu.coinyeni.data.database.dao.CoinsDao
 import com.furkanpasalioglu.coinyeni.data.model.BinanceResponseItem
 import com.furkanpasalioglu.coinyeni.data.model.DatabaseCoin
 import com.furkanpasalioglu.coinyeni.databinding.ActivityGosterBinding
 import com.furkanpasalioglu.coinyeni.ui.main.view.MainActivity.Companion.anlikBTC
+import com.furkanpasalioglu.coinyeni.ui.main.view.MainActivity.Companion.database
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -21,7 +20,7 @@ class GosterActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityGosterBinding
     private lateinit var coin : DatabaseCoin
-    var coinsDao : CoinsDao? = null
+    private lateinit var key : String
     private lateinit var binanceResponseItem : BinanceResponseItem
 
     @Inject
@@ -31,13 +30,12 @@ class GosterActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityGosterBinding.inflate(layoutInflater)
         setContentView(binding.root)
-        supportActionBar?.setDisplayHomeAsUpEnabled(true);
-        supportActionBar?.setDisplayShowHomeEnabled(true);
+        supportActionBar?.setDisplayHomeAsUpEnabled(true)
+        supportActionBar?.setDisplayShowHomeEnabled(true)
 
-        val db = AppDatabase.getDatabase(application)
-        coinsDao = db?.coinsDao()
+        coin = intent.getSerializableExtra("id") as DatabaseCoin
+        key = intent.getStringExtra("key")!!
 
-        coin = intent.getIntExtra("id",0).let { coinsDao?.getCoinBySymbol(it) }!!
         title = "Coin Detayları"
 
         lifecycleScope.launch {
@@ -69,7 +67,7 @@ class GosterActivity : AppCompatActivity() {
         binding.alisfiyati.text = coin.alis
 
         binding.button2.setOnClickListener {
-            coinsDao?.delete(coin)
+            database.child(key).removeValue()
             onBackPressed()
         }
     }

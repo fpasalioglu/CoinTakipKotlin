@@ -1,13 +1,11 @@
 package com.furkanpasalioglu.coinyeni.module
 
-import com.furkanpasalioglu.coinyeni.BuildConfig
 import com.furkanpasalioglu.coinyeni.data.api.ApiHelper
 import com.furkanpasalioglu.coinyeni.data.api.ApiHelperImpl
 import com.furkanpasalioglu.coinyeni.data.api.ApiService
 import dagger.Module
 import dagger.Provides
 import okhttp3.OkHttpClient
-import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import javax.inject.Singleton
 import dagger.hilt.InstallIn
@@ -23,12 +21,7 @@ class ApplicationModule {
 
     @Provides
     @Singleton
-    fun provideOkHttpClient() = if (BuildConfig.DEBUG) {
-        val loggingInterceptor = HttpLoggingInterceptor()
-        loggingInterceptor.setLevel(HttpLoggingInterceptor.Level.BODY)
-        OkHttpClient.Builder().addInterceptor(loggingInterceptor).build()
-    } else OkHttpClient.Builder().build()
-
+    fun provideOkHttpClient() = OkHttpClient.Builder().build()
 
     @Provides
     @Singleton

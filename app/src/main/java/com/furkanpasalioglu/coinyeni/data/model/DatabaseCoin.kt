@@ -1,17 +1,13 @@
 package com.furkanpasalioglu.coinyeni.data.model
 
-import androidx.room.Entity
-import androidx.room.PrimaryKey
+import java.io.Serializable
 
-@Entity(tableName = "coins")
 data class DatabaseCoin(
-    @PrimaryKey(autoGenerate = true)
-    var id: Int = 0,
-    val symbol: String,
-    val miktar: String,
-    val alis: String,
-    var lastPrice: String
-){
+    val symbol: String = "",
+    val miktar: String = "",
+    val alis: String = "",
+    var lastPrice: String = ""
+) : Serializable {
     fun getYuzdeKar(lastPrice: String): String {
         val deger: Float = miktar.toFloat() * lastPrice.toFloat()
         val verilen: Float = miktar.toFloat() * alis.toFloat()

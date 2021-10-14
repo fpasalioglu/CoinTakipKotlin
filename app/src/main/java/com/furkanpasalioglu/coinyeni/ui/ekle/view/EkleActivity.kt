@@ -4,15 +4,12 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.MenuItem
 import android.widget.Toast
-import com.furkanpasalioglu.coinyeni.data.database.dao.CoinsDao
 import com.furkanpasalioglu.coinyeni.databinding.ActivityEkleBinding
-import com.furkanpasalioglu.coinyeni.data.database.AppDatabase
 import com.furkanpasalioglu.coinyeni.data.model.DatabaseCoin
+import com.furkanpasalioglu.coinyeni.ui.main.view.MainActivity.Companion.database
 
 class EkleActivity : AppCompatActivity() {
     private lateinit var binding: ActivityEkleBinding
-
-    private var coinsDao : CoinsDao? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -22,9 +19,6 @@ class EkleActivity : AppCompatActivity() {
         supportActionBar?.setDisplayHomeAsUpEnabled(true);
         supportActionBar?.setDisplayShowHomeEnabled(true);
 
-        val db = AppDatabase.getDatabase(application)
-        coinsDao = db?.coinsDao()
-
         binding.ekleButton.setOnClickListener {
             if (binding.adText.equals("") || binding.miktarText.equals("") || binding.alisText.equals("")) {
                 Toast.makeText(applicationContext, "Tüm Bilgileri Eksiksiz Doldurunuz", Toast.LENGTH_SHORT).show()
@@ -32,11 +26,17 @@ class EkleActivity : AppCompatActivity() {
                 var tip = "BTC"
                 if (binding.tipSwitch.isChecked) tip = "TRY"
 
-                val coin = DatabaseCoin(0,binding.adText.text.toString()+tip,binding.miktarText.text.toString()
+                val coin = DatabaseCoin(binding.adText.text.toString()+tip,binding.miktarText.text.toString()
                 ,binding.alisText.text.toString(),"")
-                coinsDao?.insert(coin)
+
+                database.push().setValue(coin)
 
                 Toast.makeText(applicationContext, "Coin eklendi!", Toast.LENGTH_SHORT).show()
+
+                binding.adText.setText("")
+                binding.miktarText.setText("")
+                binding.alisText.setText("")
+                onBackPressed()
             }
         }
     }

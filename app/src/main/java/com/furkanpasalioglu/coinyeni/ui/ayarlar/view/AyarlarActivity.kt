@@ -5,9 +5,7 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.MenuItem
 import android.widget.Toast
-import com.furkanpasalioglu.coinyeni.data.database.AppDatabase
 import com.furkanpasalioglu.coinyeni.databinding.ActivityAyarlarBinding
-import com.furkanpasalioglu.coinyeni.ui.main.view.MainActivity
 
 class AyarlarActivity : AppCompatActivity() {
     private lateinit var binding: ActivityAyarlarBinding
@@ -16,11 +14,8 @@ class AyarlarActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityAyarlarBinding.inflate(layoutInflater)
         setContentView(binding.root)
-        supportActionBar?.setDisplayHomeAsUpEnabled(true);
-        supportActionBar?.setDisplayShowHomeEnabled(true);
-
-        val db = AppDatabase.getDatabase(application)!!
-        binding.export.setText(db.coinsDao().getAllCoins().toString())
+        supportActionBar?.setDisplayHomeAsUpEnabled(true)
+        supportActionBar?.setDisplayShowHomeEnabled(true)
 
         val preferences = getSharedPreferences("prefs", Context.MODE_PRIVATE)
         val edit = preferences.edit()

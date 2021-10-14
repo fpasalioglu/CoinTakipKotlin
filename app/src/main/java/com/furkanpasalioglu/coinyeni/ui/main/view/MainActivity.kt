@@ -1,7 +1,6 @@
 package com.furkanpasalioglu.coinyeni.ui.main.view
 
 import android.annotation.SuppressLint
-import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
@@ -17,17 +16,18 @@ import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.furkanpasalioglu.coinyeni.R
-import com.furkanpasalioglu.coinyeni.data.database.dao.CoinsDao
 import com.furkanpasalioglu.coinyeni.data.model.BinanceResponseItem
 import com.furkanpasalioglu.coinyeni.databinding.ActivityMainBinding
 import com.furkanpasalioglu.coinyeni.ui.main.adapter.MainAdapter
 import com.furkanpasalioglu.coinyeni.ui.main.viewmodel.MainViewModel
 import com.furkanpasalioglu.coinyeni.data.model.Status
-import com.furkanpasalioglu.coinyeni.data.database.AppDatabase
 import com.furkanpasalioglu.coinyeni.data.model.DatabaseCoin
 import com.furkanpasalioglu.coinyeni.ui.ayarlar.view.AyarlarActivity
 import com.furkanpasalioglu.coinyeni.ui.ekle.view.EkleActivity
 import com.furkanpasalioglu.coinyeni.ui.goster.view.GosterActivity
+import com.google.firebase.database.*
+import com.google.firebase.database.ktx.database
+import com.google.firebase.ktx.Firebase
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -37,14 +37,35 @@ class MainActivity : AppCompatActivity() {
     private lateinit var adapter: MainAdapter
     private lateinit var binding : ActivityMainBinding
     private val list:ArrayList<DatabaseCoin> = arrayListOf()
+    private var databaseCoins : ArrayList<DatabaseCoin> = arrayListOf(DatabaseCoin())
+    private var databaseCoinsKeys  = arrayListOf<String>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        getFirebaseDatabase()
         setupUI()
-        setupObserver()
+    }
+
+    private fun getFirebaseDatabase() {
+        database = Firebase.database("https://coinyeni-b417b-default-rtdb.europe-west1.firebasedatabase.app").reference
+        database.addValueEventListener(object : ValueEventListener {
+            override fun onDataChange(dataSnapshot: DataSnapshot) {
+                databaseCoins.clear()
+                dataSnapshot.children.forEach {
+                    val post = it.getValue(DatabaseCoin::class.java)
+                    val key = it.key
+                    databaseCoins.add(post!!)
+                    databaseCoinsKeys.add(key!!)
+                }
+                setupObserver()
+            }
+
+            override fun onCancelled(error: DatabaseError) {
+            }
+        })
     }
 
     private fun setupUI() {
@@ -60,12 +81,12 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun setupObserver() {
-        mainViewModel.coins.observe(this, Observer {
+        mainViewModel.coins.observe(this, {
             when (it.status) {
                 Status.SUCCESS -> {
                     binding.progressBar.visibility = View.GONE
                     it.data?.let {
-                        coins -> renderList(coins)
+                        coins -> renderList(coins, databaseCoins)
                     }
                     binding.recyclerView.visibility = View.VISIBLE
                 }
@@ -83,9 +104,8 @@ class MainActivity : AppCompatActivity() {
     }
 
     @SuppressLint("SetTextI18n")
-    private fun renderList(coins: List<BinanceResponseItem>) {
+    private fun renderList(coins: List<BinanceResponseItem>, databaseCoins : ArrayList<DatabaseCoin>?) {
         list.clear()
-        val databaseCoins : List<DatabaseCoin>? = mainViewModel.coinsDao?.getAllCoins()
         if (databaseCoins?.isNotEmpty()!!) {
             for (element in databaseCoins) {
                 coins.forEach {
@@ -157,11 +177,13 @@ class MainActivity : AppCompatActivity() {
 
     private fun onListItemClick(position: Int) {
         val intent = Intent(this, GosterActivity::class.java)
-        intent.putExtra("id",list[position].id)
+        intent.putExtra("id", list[position])
+        intent.putExtra("key", databaseCoinsKeys[position])
         startActivity(intent)
     }
 
     companion object{
         lateinit var anlikBTC : String
+        lateinit var database: DatabaseReference
     }
 }
