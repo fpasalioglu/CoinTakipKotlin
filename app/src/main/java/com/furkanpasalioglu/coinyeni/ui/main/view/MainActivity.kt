@@ -16,6 +16,7 @@ import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.furkanpasalioglu.coinyeni.R
+import com.furkanpasalioglu.coinyeni.data.model.Ayar
 import com.furkanpasalioglu.coinyeni.data.model.BinanceResponseItem
 import com.furkanpasalioglu.coinyeni.databinding.ActivityMainBinding
 import com.furkanpasalioglu.coinyeni.ui.main.adapter.MainAdapter
@@ -27,6 +28,7 @@ import com.furkanpasalioglu.coinyeni.ui.ekle.view.EkleActivity
 import com.furkanpasalioglu.coinyeni.ui.goster.view.GosterActivity
 import com.google.firebase.database.*
 import com.google.firebase.database.ktx.database
+import com.google.firebase.database.ktx.getValue
 import com.google.firebase.ktx.Firebase
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -39,6 +41,7 @@ class MainActivity : AppCompatActivity() {
     private val list:ArrayList<DatabaseCoin> = arrayListOf()
     private var databaseCoins : ArrayList<DatabaseCoin> = arrayListOf(DatabaseCoin())
     private var databaseCoinsKeys  = arrayListOf<String>()
+    private lateinit var ayar : Ayar
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -51,7 +54,7 @@ class MainActivity : AppCompatActivity() {
 
     private fun getFirebaseDatabase() {
         database = Firebase.database("https://coinyeni-b417b-default-rtdb.europe-west1.firebasedatabase.app").reference
-        database.addValueEventListener(object : ValueEventListener {
+        database.child("koinler").addValueEventListener(object : ValueEventListener {
             override fun onDataChange(dataSnapshot: DataSnapshot) {
                 databaseCoins.clear()
                 dataSnapshot.children.forEach {
@@ -66,6 +69,11 @@ class MainActivity : AppCompatActivity() {
             override fun onCancelled(error: DatabaseError) {
             }
         })
+        database.child("ayarlar").get().addOnSuccessListener {
+            ayar = it.getValue<Ayar>()!!
+        }.addOnFailureListener{
+            Log.e("firebase", "Error getting data", it)
+        }
     }
 
     private fun setupUI() {
@@ -132,10 +140,9 @@ class MainActivity : AppCompatActivity() {
                 }
             }
 
-            val preferences = getSharedPreferences("prefs", Context.MODE_PRIVATE)
-            portBtc += preferences.getFloat("btc",0F)
+            portBtc += ayar.btc
             var portTl = portBtc * anlikBTC.toFloat()
-            portTl+=preferences.getFloat("tl",0F)
+            portTl += ayar.tl
 
             val zararTl = zararToplam * anlikBTC.toFloat()
             binding.portBtc.text = "$portBtc BTC"

@@ -67,7 +67,7 @@ class GosterActivity : AppCompatActivity() {
         binding.alisfiyati.text = coin.alis
 
         binding.button2.setOnClickListener {
-            database.child(key).removeValue()
+            database.child("koinler").child(key).removeValue()
             onBackPressed()
         }
     }

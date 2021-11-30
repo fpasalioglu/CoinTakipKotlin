@@ -29,7 +29,7 @@ class EkleActivity : AppCompatActivity() {
                 val coin = DatabaseCoin(binding.adText.text.toString()+tip,binding.miktarText.text.toString()
                 ,binding.alisText.text.toString(),"")
 
-                database.push().setValue(coin)
+                database.child("koinler").push().setValue(coin)
 
                 Toast.makeText(applicationContext, "Coin eklendi!", Toast.LENGTH_SHORT).show()
 

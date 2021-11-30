@@ -5,7 +5,9 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.MenuItem
 import android.widget.Toast
+import com.furkanpasalioglu.coinyeni.data.model.Ayar
 import com.furkanpasalioglu.coinyeni.databinding.ActivityAyarlarBinding
+import com.furkanpasalioglu.coinyeni.ui.main.view.MainActivity.Companion.database
 
 class AyarlarActivity : AppCompatActivity() {
     private lateinit var binding: ActivityAyarlarBinding
@@ -26,6 +28,8 @@ class AyarlarActivity : AppCompatActivity() {
         binding.tlmiktarText.setText(tl.toString())
 
         binding.button.setOnClickListener {
+            val ayar = Ayar(binding.btcmiktarEdit.text.toString().toFloat(), binding.tlmiktarText.text.toString().toFloat())
+            database.child("ayarlar").setValue(ayar)
             edit.putFloat("btc",binding.btcmiktarEdit.text.toString().toFloat())
             edit.putFloat("tl",binding.tlmiktarText.text.toString().toFloat())
             edit.apply()
