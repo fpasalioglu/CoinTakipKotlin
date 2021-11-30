@@ -66,11 +66,15 @@ class MainActivity : AppCompatActivity() {
             override fun onCancelled(error: DatabaseError) {
             }
         })
-        database.child("ayarlar").get().addOnSuccessListener {
-            ayar = it.getValue<Ayar>()!!
-        }.addOnFailureListener{
-            Log.e("firebase", "Error getting data", it)
+        val postListener = object : ValueEventListener {
+            override fun onDataChange(dataSnapshot: DataSnapshot) {
+                ayar = dataSnapshot.getValue<Ayar>()!!
+            }
+
+            override fun onCancelled(databaseError: DatabaseError) {
+            }
         }
+        database.child("ayarlar").addValueEventListener(postListener)
     }
 
     private fun setupUI() {
