@@ -22,7 +22,7 @@ class MainAdapter(private var coins: List<DatabaseCoin>, private val onItemClick
             if (binding.textViewKar.text.contains("-"))
                 binding.textViewKar.setTextColor(Color.parseColor("#FF5050"))
             else
-                binding.textViewKar.setTextColor(Color.parseColor("#27BCFF"))
+                binding.textViewKar.setTextColor(Color.parseColor("#43A047"))
         }
 
         override fun onClick(v: View) {

@@ -25,6 +25,7 @@
         android:layout_weight="1"
         android:gravity="right"
         android:textColor="#7B62A8"
+        android:textStyle="bold"
         android:text="TextView" />
 </LinearLayout>
 </layout>
