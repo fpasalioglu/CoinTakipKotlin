@@ -4,6 +4,7 @@ import android.annotation.SuppressLint
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.os.StrictMode
 import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
@@ -14,13 +15,10 @@ import androidx.activity.viewModels
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.furkanpasalioglu.coinyeni.R
-import com.furkanpasalioglu.coinyeni.data.model.Ayar
-import com.furkanpasalioglu.coinyeni.data.model.BinanceResponseItem
+import com.furkanpasalioglu.coinyeni.data.model.*
 import com.furkanpasalioglu.coinyeni.databinding.ActivityMainBinding
 import com.furkanpasalioglu.coinyeni.ui.main.adapter.MainAdapter
 import com.furkanpasalioglu.coinyeni.ui.main.viewmodel.MainViewModel
-import com.furkanpasalioglu.coinyeni.data.model.Status
-import com.furkanpasalioglu.coinyeni.data.model.DatabaseCoin
 import com.furkanpasalioglu.coinyeni.ui.ayarlar.view.AyarlarActivity
 import com.furkanpasalioglu.coinyeni.ui.ekle.view.EkleActivity
 import com.furkanpasalioglu.coinyeni.ui.goster.view.GosterActivity
@@ -28,7 +26,9 @@ import com.google.firebase.database.*
 import com.google.firebase.database.ktx.database
 import com.google.firebase.database.ktx.getValue
 import com.google.firebase.ktx.Firebase
+import com.google.gson.Gson
 import dagger.hilt.android.AndroidEntryPoint
+import java.net.URL
 
 @AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
@@ -42,6 +42,8 @@ class MainActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        val policy = StrictMode.ThreadPolicy.Builder().permitAll().build()
+        StrictMode.setThreadPolicy(policy)
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
@@ -110,6 +112,10 @@ class MainActivity : AppCompatActivity() {
                 }
             }
         })
+        val apiResponse = URL("https://api.genelpara.com/embed/para-birimleri.json").readText()
+        val gson = Gson()
+        val mDoviz = gson.fromJson(apiResponse, Doviz::class.java)
+        binding.anlikusd.text = mDoviz.usd.alis
     }
 
     @SuppressLint("SetTextI18n")
