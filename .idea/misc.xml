@@ -4,13 +4,23 @@
     <option name="filePathToZoomLevelMap">
       <map>
         <entry key="..\:/Users/Halil/AndroidStudioProjects/CoinTakipKotlin/app/src/main/res/layout/activity_goster.xml" value="0.27291666666666664" />
+        <entry key="..\:/Users/furka/AndroidStudioProjects/CoinYeni2/app/src/main/res/drawable-v21/app_widget_background.xml" value="0.22135416666666666" />
         <entry key="..\:/Users/furka/AndroidStudioProjects/CoinYeni2/app/src/main/res/drawable-v24/ic_baseline_add_24.xml" value="0.16614583333333333" />
+        <entry key="..\:/Users/furka/AndroidStudioProjects/CoinYeni2/app/src/main/res/drawable/gradient.xml" value="0.22135416666666666" />
         <entry key="..\:/Users/furka/AndroidStudioProjects/CoinYeni2/app/src/main/res/layout/activity_ayarlar.xml" value="0.15052083333333333" />
         <entry key="..\:/Users/furka/AndroidStudioProjects/CoinYeni2/app/src/main/res/layout/activity_ekle.xml" value="0.28" />
+        <entry key="..\:/Users/furka/AndroidStudioProjects/CoinYeni2/app/src/main/res/layout/activity_example_app_widget_config.xml" value="0.20520833333333333" />
         <entry key="..\:/Users/furka/AndroidStudioProjects/CoinYeni2/app/src/main/res/layout/activity_goster.xml" value="0.264" />
         <entry key="..\:/Users/furka/AndroidStudioProjects/CoinYeni2/app/src/main/res/layout/activity_main.xml" value="0.33" />
+        <entry key="..\:/Users/furka/AndroidStudioProjects/CoinYeni2/app/src/main/res/layout/example_widget.xml" value="0.20520833333333333" />
+        <entry key="..\:/Users/furka/AndroidStudioProjects/CoinYeni2/app/src/main/res/layout/example_widget_item.xml" value="0.20520833333333333" />
         <entry key="..\:/Users/furka/AndroidStudioProjects/CoinYeni2/app/src/main/res/layout/item_layout.xml" value="0.33" />
+        <entry key="..\:/Users/furka/AndroidStudioProjects/CoinYeni2/app/src/main/res/layout/item_widget.xml" value="0.20520833333333333" />
+        <entry key="..\:/Users/furka/AndroidStudioProjects/CoinYeni2/app/src/main/res/layout/large_widget.xml" value="0.20520833333333333" />
+        <entry key="..\:/Users/furka/AndroidStudioProjects/CoinYeni2/app/src/main/res/layout/widget_small.xml" value="0.20520833333333333" />
         <entry key="..\:/Users/furka/AndroidStudioProjects/CoinYeni2/app/src/main/res/menu/main_menu.xml" value="0.15" />
+        <entry key="..\:/Users/furka/AndroidStudioProjects/CoinYeni2/app/src/main/res/xml/new_app_widget_info.xml" value="0.20520833333333333" />
+        <entry key="..\:/Users/furka/AndroidStudioProjects/CoinYeni2/app/src/main/res/xml/small_widget_info.xml" value="0.20520833333333333" />
       </map>
     </option>
   </component>
