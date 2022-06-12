@@ -65,6 +65,7 @@ class GosterActivity : AppCompatActivity() {
         binding.adi.text = coin.symbol
         binding.miktar.text = coin.miktar
         binding.alisfiyati.text = coin.alis
+        binding.noteTxt.text = coin.note
 
         binding.button2.setOnClickListener {
             database.child("koinler").child(key).removeValue()

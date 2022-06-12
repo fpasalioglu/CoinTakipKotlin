@@ -318,6 +318,27 @@
                             android:textAppearance="?android:attr/textAppearanceMedium"
                             android:layout_marginStart="5dip" />
                     </LinearLayout>
+                    <LinearLayout
+                        android:id="@+id/notelinear"
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="10dp"
+                        android:orientation="horizontal" >
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Not"
+                            android:textColor="#7986CB"
+                            android:textAppearance="?android:attr/textAppearanceMedium" />
+                        <TextView
+                            android:id="@+id/noteTxt"
+                            android:minHeight="60dp"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:textAppearance="?android:attr/textAppearanceMedium"
+                            android:layout_marginStart="25dip" />
+                    </LinearLayout>
                 </LinearLayout>
             </androidx.cardview.widget.CardView>
 

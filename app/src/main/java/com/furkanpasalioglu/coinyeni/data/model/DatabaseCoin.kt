@@ -6,7 +6,8 @@ data class DatabaseCoin(
     val symbol: String = "",
     val miktar: String = "",
     val alis: String = "",
-    var lastPrice: String = ""
+    var lastPrice: String = "",
+    var note: String = ""
 ) : Serializable {
     fun getYuzdeKar(lastPrice: String): String {
         val deger: Float = miktar.toFloat() * lastPrice.toFloat()

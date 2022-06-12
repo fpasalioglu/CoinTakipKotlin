@@ -23,11 +23,14 @@ class EkleActivity : AppCompatActivity() {
             if (binding.adText.equals("") || binding.miktarText.equals("") || binding.alisText.equals("")) {
                 Toast.makeText(applicationContext, "Tüm Bilgileri Eksiksiz Doldurunuz", Toast.LENGTH_SHORT).show()
             }else{
+                var note = ""
+                if(binding.noteTxt.text.toString() != "")
+                    note = binding.noteTxt.text.toString()
                 var tip = "BTC"
                 if (binding.tipSwitch.isChecked) tip = "TRY"
 
-                val coin = DatabaseCoin(binding.adText.text.toString()+tip,binding.miktarText.text.toString()
-                ,binding.alisText.text.toString(),"")
+                val coin = DatabaseCoin(binding.adText.text.toString()+tip, binding.miktarText.text.toString()
+                , binding.alisText.text.toString(),"", note)
 
                 database.child("koinler").push().setValue(coin)
 
@@ -36,6 +39,7 @@ class EkleActivity : AppCompatActivity() {
                 binding.adText.setText("")
                 binding.miktarText.setText("")
                 binding.alisText.setText("")
+                binding.noteTxt.setText("")
                 onBackPressed()
             }
         }
