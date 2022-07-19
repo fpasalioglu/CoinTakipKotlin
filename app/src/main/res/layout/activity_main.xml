@@ -45,6 +45,15 @@
                         android:gravity="center"
                         android:layout_marginTop="2dp"
                         android:text="Bekleyiniz..." />
+
+                    <TextView
+                        android:id="@+id/anlikbtcusdt"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:textColor="@android:color/holo_purple"
+                        android:gravity="center"
+                        android:layout_marginTop="2dp"
+                        android:text="Bekleyiniz..." />
                 </LinearLayout>
             </androidx.cardview.widget.CardView>
 

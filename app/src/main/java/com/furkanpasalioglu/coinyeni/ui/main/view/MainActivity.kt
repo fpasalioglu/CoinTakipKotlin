@@ -5,7 +5,6 @@ import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.StrictMode
-import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
@@ -92,12 +91,12 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun setupObserver() {
-        mainViewModel.coins.observe(this, {
+        mainViewModel.coins.observe(this) {
             when (it.status) {
                 Status.SUCCESS -> {
                     binding.progressBar.visibility = View.GONE
-                    it.data?.let {
-                        coins -> renderList(coins, databaseCoins)
+                    it.data?.let { coins ->
+                        renderList(coins, databaseCoins)
                     }
                     binding.recyclerView.visibility = View.VISIBLE
                 }
@@ -111,14 +110,14 @@ class MainActivity : AppCompatActivity() {
                     Toast.makeText(this, it.message, Toast.LENGTH_LONG).show()
                 }
             }
-        })
+        }
         val apiResponse = URL("https://api.genelpara.com/embed/para-birimleri.json").readText()
         val gson = Gson()
         val mDoviz = gson.fromJson(apiResponse, Doviz::class.java)
         binding.anlikusd.text = mDoviz.usd.alis
     }
 
-    @SuppressLint("SetTextI18n")
+    @SuppressLint("SetTextI18n", "NotifyDataSetChanged")
     private fun renderList(coins: List<BinanceResponseItem>, databaseCoins : ArrayList<DatabaseCoin>?) {
         list.clear()
         if (databaseCoins?.isNotEmpty()!!) {
@@ -127,6 +126,9 @@ class MainActivity : AppCompatActivity() {
                     if (it.symbol == "BTCTRY"){
                         anlikBTC = it.lastPrice.split(".")[0]
                         binding.anlikbtc.text = "$anlikBTC TL"
+                    } else if (it.symbol == "BTCUSDT"){
+                        anlikBTCUSDT = it.lastPrice.split(".")[0]
+                        binding.anlikbtcusdt.text = "$anlikBTCUSDT USDT"
                     }
 
                     if (element.symbol == it.symbol) {
@@ -165,7 +167,7 @@ class MainActivity : AppCompatActivity() {
         return true
     }
 
-    var resultLauncher = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { _ ->
+    var resultLauncher = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) {
         mainViewModel.fetchCoins()
     }
 
@@ -198,6 +200,7 @@ class MainActivity : AppCompatActivity() {
 
     companion object{
         lateinit var anlikBTC : String
+        lateinit var anlikBTCUSDT : String
         lateinit var database: DatabaseReference
         lateinit var ayar : Ayar
     }
